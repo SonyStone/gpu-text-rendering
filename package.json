@@ -1,0 +1,22 @@
+{
+  "name": "gpu-text-rendering",
+  "version": "0.0.1",
+  "description": "gpu-text-rendering",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node serve"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^17.0.16",
+    "@types/webpack": "^5.28.0",
+    "@wasm-tool/wasm-pack-plugin": "^1.6.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5",
+    "webpack": "^5.68.0",
+    "webpack-dev-server": "^4.7.4"
+  }
+}
