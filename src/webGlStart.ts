@@ -8,6 +8,13 @@ import { processPageData } from './processPageData';
 import { requestFile } from './requestFile';
 import { unpackBmp } from './unpackBmp';
 
+import imagevs from './imagevs.vert';
+import imagefs from './imagefs.frag';
+import glyphvs from './glyphvs.vert';
+import glyphfs from './glyphfs.frag';
+import pagevs from './pagevs.vert';
+import pagefs from './pagefs.frag';
+
 export async function webGlStart() {
 
   const canvas = document.getElementById("beziercanvas") as HTMLCanvasElement;
@@ -42,10 +49,11 @@ export async function webGlStart() {
 
   // Shader programs
   console.log("Compiling shaders...");
-  const imageProgram = createProgram(gl, "imagevs", "imagefs")!;
-  const glyphProgram = createProgram(gl, "glyphvs", "glyphfs", "#define kUseRasteredAtlas\n")!;
-  const glyphProgramNoRast = createProgram(gl, "glyphvs", "glyphfs")!;
-  const pageProgram = createProgram(gl, "pagevs", "pagefs")!;
+
+  const imageProgram = createProgram(gl, imagevs, imagefs)!;
+  const glyphProgram = createProgram(gl, glyphvs, glyphfs, "#define kUseRasteredAtlas\n")!;
+  const glyphProgramNoRast = createProgram(gl, glyphvs, glyphfs)!;
+  const pageProgram = createProgram(gl, pagevs, pagefs)!;
 
   console.log("Loading files...");
 

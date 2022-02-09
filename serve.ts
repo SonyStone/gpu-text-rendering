@@ -24,6 +24,10 @@ const webpackConfig: Webpack.Configuration = {
         options: {onlyCompileBundledFiles: true},
         exclude: /node_modules/,
       },
+      {
+        test: /\.(frag|vert)$/i,
+        use: 'raw-loader',
+      },
     ],
   },
   resolve: {

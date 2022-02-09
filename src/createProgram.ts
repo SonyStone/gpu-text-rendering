@@ -4,8 +4,8 @@ export type ExtWebGLProgram = WebGLProgram & {
 }
 
 export function createProgram(gl: WebGLRenderingContext, vid: string, fid: string, defines?: string): ExtWebGLProgram | undefined {
-  var vshader = compileShaderFromElement(gl, vid, defines);
-  var fshader = compileShaderFromElement(gl, fid, defines);
+  var vshader = compileShaderFromString(gl, vid, gl.VERTEX_SHADER, defines);
+  var fshader = compileShaderFromString(gl, fid, gl.FRAGMENT_SHADER, defines);
 
   if (vshader == null || fshader == null) {
     return;
@@ -44,23 +44,7 @@ export function createProgram(gl: WebGLRenderingContext, vid: string, fid: strin
   return program;
 }
 
-function compileShaderFromElement(gl: WebGLRenderingContext, id: string, defines?: string): WebGLShader | undefined {
-  var elem = document.getElementById(id) as HTMLScriptElement;
-  if (!elem) {
-    console.log("Can't find shader element " + id);
-    return;
-  }
-  var shaderType;
-  if (elem.type == "x-shader/x-vertex") {
-    shaderType = gl.VERTEX_SHADER;
-  } else if (elem.type == "x-shader/x-fragment") {
-    shaderType = gl.FRAGMENT_SHADER;
-  } else {
-    console.log("getShader: unknown shader type in script tag for id " + id);
-    return;
-  }
-
-  let src = elem.textContent!;
+export function compileShaderFromString(gl: WebGLRenderingContext, src: string, shaderType: number, defines?: string): WebGLShader | undefined {
   if (defines != null) {
     src = src.replace("//insertdefines", defines);
   }
@@ -70,7 +54,7 @@ function compileShaderFromElement(gl: WebGLRenderingContext, id: string, defines
   gl.shaderSource(shader, src);
   gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.log("Failed to compile shader '" + id + "':\n" + gl.getShaderInfoLog(shader));
+    console.log("Failed to compile shader:\n" + gl.getShaderInfoLog(shader));
     return;
   }
   return shader;
